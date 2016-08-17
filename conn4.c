@@ -110,12 +110,12 @@ void drop(GameState* gs, int column, int player) {
 
 int checkAt(GameState* gs, int x, int y) {
 	// check across
-	bool found = true;
+	int found = 1;
 	int curr = at(gs, x, y);
 	int i;
 	for (i = 0; i < 4; i++) {
 		if (at(gs, x + i, y) != curr) {
-			found = false;
+			found = 0;
 			break;
 		}
 	}
@@ -124,10 +124,10 @@ int checkAt(GameState* gs, int x, int y) {
 		return curr;
 
 	// check down
-	found = true;
+	found = 1;
 	for (i = 0; i < 4; i++) {
 		if (at(gs, x, y + i) != curr) {
-			found = false;
+			found = 0;
 			break;
 		}
 	}
@@ -136,10 +136,10 @@ int checkAt(GameState* gs, int x, int y) {
 		return curr;
 
 	// check diag +/+
-	found = true;
+	found = 1;
 	for (i = 0; i < 4; i++) {
 		if (at(gs, x + i, y + i) != curr) {
-			found = false;
+			found = 0;
 			break;
 		}
 	}
@@ -148,10 +148,10 @@ int checkAt(GameState* gs, int x, int y) {
 		return curr;
 
 	// check diag -/+
-	found = true;
+	found = 1;
 	for (i = 0; i < 4; i++) {
 		if (at(gs, x - i, y + i) != curr) {
-			found = false;
+			found = 0;
 			break;
 		}
 	}
@@ -213,12 +213,12 @@ int countAt(GameState* gs, int x, int y, int player) {
 	return found;
 }
 
-bool getWinner(GameState* gs) {
+int getWinner(GameState* gs) {
 	int x, y;
-	bool res;
+	int res;
 	for (x = 0; x < gs->width; x++) {
 		for (y = 0; y < gs->height; y++) {
-			res = (bool) checkAt(gs, x, y);
+			res = checkAt(gs, x, y);
 			if (res)
 				return res;
 		}
@@ -292,7 +292,7 @@ void printGameState(GameState* gs) {
 		for (x = 0; x < gs->width; x++) {
 			toP = at(gs, x, y);
 			if (toP == EMPTY) {
-				printf("  ");
+				printf("0 ");
 			} else {
 				printf("%d ", toP);
 			}
@@ -595,6 +595,20 @@ GameState* globalState;
 
 void startNewGame() {
 	globalState = newGameState(7, 6);
+}
+
+void addMovePlayer1(int slot){
+	
+	GameState* gs = globalState;
+	gs->board[slot] = 1;
+	printGameState(globalState);
+}
+
+void addMovePlayer2(int slot){
+	
+	GameState* gs = globalState;
+	gs->board[slot] = 2;
+	printGameState(globalState);
 }
 
 void playerMove(int move) {

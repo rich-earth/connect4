@@ -22,8 +22,8 @@
 importScripts("conn4.js");
 
 var startNewGame = Module.cwrap('startNewGame');
-var playerMove = Module.cwrap('playerMove', '', ['number']);
-var computerMove = Module.cwrap('computerMove', '', ['number']);
+var playerMove = Module.cwrap('playerMove', '', ['number','number']);
+var computerMove = Module.cwrap('computerMove', '', ['number','number']);
 var isWin = Module.cwrap('isGameWon', 'number', []);
 var isDraw = Module.cwrap('isGameDraw', 'number', []);
 var isEmpty = Module.cwrap('isEmpty', 'number', ['number', 'number']);
@@ -60,9 +60,9 @@ self.addEventListener('message', function(data) {
 		startNewGame();
 		sendBoardUpdate();
 	} else if (m['cmd'] == "move") {
-		playerMove(m['val']);
+		playerMove(m['val'],1);
 		sendBoardUpdate(true);
-		computerMove(movesAhead);
+		computerMove(movesAhead,2);
 		sendBoardUpdate(false);
 	} else if (m['cmd'] == "ahead") {
 		movesAhead = parseInt(m['val']);

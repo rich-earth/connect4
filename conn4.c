@@ -611,13 +611,13 @@ void addMovePlayer2(int slot){
 	printGameState(globalState);
 }
 
-void playerMove(int move) {
-	drop(globalState, move, 1);
+void playerMove(int mov, int turn) {
+	drop(globalState, move, turn);
 }
 
-void computerMove(int look_ahead) {
-	int move = bestMoveForState(globalState, 2, 1, look_ahead);
-	drop(globalState, move, 2);
+void computerMove(int look_ahea, int turn) {
+	int move = bestMoveForState(globalState, (turn==1 ? 1 : 2), (turn==1 ? 2 : 1), look_ahead);
+    drop(globalState, move, turn);
 }
 
 int isGameWon() {
@@ -644,13 +644,13 @@ int main(int argc, char** argv) {
 		printf("Move? ");
 		scanf("%d", &move);
 	       
-		playerMove(move);
+		playerMove(move,1);
  
 		printGameState(globalState);
  
 		checkWin(globalState);
  
-		computerMove(LOOK_AHEAD);
+		computerMove(LOOK_AHEAD,1);
  
 		printGameState(globalState);
  
